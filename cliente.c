@@ -1,26 +1,27 @@
-#include <netinet/in.h> //structure for storing address information
+#include <netinet/in.h> //estructura para guardar la información de dirección
 #include <stdio.h>
 #include <string.h> //para la función strcmp()
 #include <stdlib.h>
-#include <sys/socket.h> //for socket APIs
+#include <sys/socket.h> //para la APIs de socket
 #include <sys/types.h>
 #include <unistd.h> //para la función close()
 
 int main(int argc, char const* argv[])
 {
 	//Conectarse
-	char comando[255]; //Dónde se va a guardar el comando
+	char comando[255]; //Array dónde se va a guardar el comando
 
 	int sockD = socket(AF_INET, SOCK_STREAM, 0);
 
 	struct sockaddr_in servAddr;
 
 	servAddr.sin_family = AF_INET;
-	servAddr.sin_port = htons(9001); // use some unused port number
+	servAddr.sin_port = htons(9001); //usar un puerto que no se esté usando
 	servAddr.sin_addr.s_addr = INADDR_ANY;
 
 	//Read / Write
-
+	
+	//si connect devuelve -1 no hubo conexión, si devuelve 0 si se conectó exitosamente
 	int connectStatus = connect(sockD, (struct sockaddr*)&servAddr,	sizeof(servAddr));
 
 	if(connectStatus == -1){
@@ -34,12 +35,12 @@ int main(int argc, char const* argv[])
 		scanf("%s", comando); //registra el comando escrito por el cliente en la array comando
 		send(sockD, comando, sizeof(comando), 0); //le envia la array de comando al servidor
 
-		char strData[255];
+		char strData[2048];
 		recv(sockD, strData, sizeof(strData), 0);
 
 		printf("\nMessage: %s\n", strData);
 
-		if (strcmp(comando, "salir") == 0){
+		if (strcmp(comando, "salida") == 0){
 			connectStatus = -1;
 		}
 	}
