@@ -13,7 +13,7 @@ En este proyecto nosotros desarrollamos una aplicación cliente/servidor la cual
 
 ## CÓMO EJECUTAR EN LINUX:
 
-en dos terminales diferentes ejecuta el primer comando en el primer terminal y el otro en la segunda terminal:
+En dos terminales diferentes ejecuta el primer comando en el primer terminal y el otro en la segunda terminal:
 ```
 gcc cliente.c -o cliente
 gcc servidor.c -o servidor
