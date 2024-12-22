@@ -37,8 +37,19 @@ int main(int argc, char const* argv[])
 	while(connectStatus == 0){ //si connecStatus es -1 (no hay conexión con el servidor) nunca entra al while
 		
 		printf("\nEscriba el comando que le va a mandar al servidor: \n");
-		scanf("%s", comando); //registra el comando escrito por el cliente en la array comando
-		send(sockD, comando, sizeof(comando), 0); //le envia la array de comando al servidor
+
+		// Usar fgets en lugar de scanf para capturar toda la línea
+        memset(comando, 0, sizeof(comando)); // Limpiar el buffer
+        fgets(comando, sizeof(comando), stdin);
+
+		// Remover saltos de línea o espacios al final
+        comando[strcspn(comando, "\n")] = '\0';
+
+		// Enviar el comando al servidor
+        send(sockD, comando, strlen(comando), 0);
+
+		// scanf("%s", comando); //registra el comando escrito por el cliente en la array comando
+		// send(sockD, comando, sizeof(comando), 0); //le envia la array de comando al servidor
 
 		char strData[2048]; //definimos un array para guardar la respuesta del servidor
 		recv(sockD, strData, sizeof(strData), 0); //recibe la respuesta del servidor
